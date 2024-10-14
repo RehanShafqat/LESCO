@@ -1,12 +1,19 @@
 package Views;
 
+import Controllers.FirstScreenController;
 import Structures.CustomFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.util.EventListener;
 
 public class FirstScreen extends CustomFrame {
+
     GridBagConstraints gbc = new GridBagConstraints();
+    JButton Employeebutton;
+    JButton Customerbutton;
+    JButton ExitButton;
     public FirstScreen() {
         setTitle("LESCO Billing System");
         setBackground(Color.darkGray);
@@ -29,7 +36,7 @@ public class FirstScreen extends CustomFrame {
     }
 
 
-    public void addButtons() {
+    private void addButtons() {
 
         JPanel OptionPanel = new JPanel();
         OptionPanel.setLayout(new GridBagLayout());
@@ -39,24 +46,18 @@ public class FirstScreen extends CustomFrame {
         optionGbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Employee Login
-        JButton Employeebutton = new JButton("Employee Login");
+        Employeebutton = new JButton("Employee Login");
         Employeebutton.setFocusPainted(false);
-        Employeebutton.addActionListener(e -> {
-            this.dispose();
-            new EmployeeLogin();
-        });
+
 
         // Customer Login
-        JButton Customerbutton = new JButton("Customer Login");
+         Customerbutton = new JButton("Customer Login");
         Customerbutton.setFocusPainted(false);
-        Customerbutton.addActionListener(e -> {});
 
         // Exit
-        JButton ExitButton = new JButton("Exit");
+        ExitButton = new JButton("Exit");
         ExitButton.setFocusPainted(false);
-        ExitButton.addActionListener(e -> {
-            this.dispose();
-        });
+
 
 
         optionGbc.gridy = 0; // Row 0
@@ -68,6 +69,7 @@ public class FirstScreen extends CustomFrame {
         Customerbutton.setMargin(new Insets(20, 20, 20, 20));
         Customerbutton.setFont(new Font("Arial", Font.BOLD, 15));
         OptionPanel.add(Customerbutton, optionGbc);
+
 
         optionGbc.gridy = 2; // Row 2
         ExitButton.setMargin(new Insets(20, 20, 20, 20));
@@ -82,4 +84,16 @@ public class FirstScreen extends CustomFrame {
 
 
     }
+
+    public void addCustomerButtonListener(ActionListener e) {
+        Customerbutton.addActionListener(e);
+    }
+    public void addExitButtonListener(ActionListener e) {
+        ExitButton.addActionListener(e);
+    }
+    public void addEmployeeButtonListener(ActionListener e){
+        Employeebutton.addActionListener(e);
+    }
+
+
 }

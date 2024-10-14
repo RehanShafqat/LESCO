@@ -4,9 +4,7 @@
 
 package com.mycompany.l227914_scd_a1;
 
-import Models.LESCO_BILLING_SYSTEM;
-import Views.EmployeeLogin;
-import Views.FirstScreen;
+import Controllers.FirstScreenController;
 
 /**
  *
@@ -15,9 +13,7 @@ import Views.FirstScreen;
 public class L227914_SCD_A1 {
 
     public static void main(String[] args) {
-//        new EmployeeLogin();
-        new FirstScreen();
-
+            new FirstScreenController();
     }
 
 }

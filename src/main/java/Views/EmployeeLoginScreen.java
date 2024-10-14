@@ -1,16 +1,21 @@
 package Views;
 
-import Controllers.EmployeeController;
 import Structures.CustomFrame;
 import Structures.ImagePath;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
-public class EmployeeLogin extends CustomFrame {
+public class EmployeeLoginScreen extends CustomFrame {
 
-    public EmployeeLogin() {
+    // Declare buttons as member variables
+    private JButton loginButton;
+    private JTextField userName;
+    private JTextField password;
+
+    public EmployeeLoginScreen() {
         setLayout(new BorderLayout());
 
         JPanel imagePanel = new JPanel();
@@ -23,6 +28,7 @@ public class EmployeeLogin extends CustomFrame {
         add(imagePanel, BorderLayout.WEST);
 
         addForm();
+
 
         setTitle("Employee Login");
         setSize(800, 600);
@@ -44,7 +50,7 @@ public class EmployeeLogin extends CustomFrame {
         formPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
         JPanel userNamePanel = new JPanel(new BorderLayout());
-        JTextField userName = new JTextField(15);
+        userName = new JTextField(15); // Initialize userName
         JLabel userLabel = new JLabel("Enter your name: ");
         userLabel.setFont(new Font("Arial", Font.PLAIN, 13));
         userName.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -53,7 +59,7 @@ public class EmployeeLogin extends CustomFrame {
         userNamePanel.setBorder(new EmptyBorder(0, 0, 10, 0));
 
         JPanel passwordPanel = new JPanel(new BorderLayout());
-        JTextField password = new JTextField(15);
+        password = new JTextField(15); // Initialize password
         JLabel passwordLabel = new JLabel("Enter your password: ");
         passwordLabel.setFont(new Font("Arial", Font.PLAIN, 13));
         password.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -61,7 +67,7 @@ public class EmployeeLogin extends CustomFrame {
         passwordPanel.add(password, BorderLayout.EAST);
         passwordPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
 
-        JButton loginButton = new JButton("Login");
+        loginButton = new JButton("Login"); // Initialize loginButton
         loginButton.setFocusPainted(false);
         loginButton.setFont(new Font("Arial", Font.PLAIN, 13));
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -71,21 +77,31 @@ public class EmployeeLogin extends CustomFrame {
         formPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         formPanel.add(loginButton);
 
-        loginButton.addActionListener(e -> {
-            if (userName.getText().isEmpty() || password.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter all credentials");
-            } else {
-                EmployeeController controller = new EmployeeController();
-                if (controller.loginController(userName.getText(), password.getText())) {
-                    JOptionPane.showMessageDialog(this, "You have been logged in");
-                    this.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Wrong credentials");
-                }
-            }
-        });
-
         wrapperPanel.add(formPanel);
         add(wrapperPanel, BorderLayout.CENTER);
     }
+
+    public String getUserName(){
+        return this.userName.getText();
+    }
+    public String getPassword(){
+        return this.password.getText();
+    }
+    public void addLoginButtonListener(ActionListener e){
+        loginButton.addActionListener(e);
+    }
+    public void SayForCredentials() {
+        JOptionPane.showMessageDialog(this,"Please Enter all Credentials");
+    }
+    public void WrongCredentials() {
+        JOptionPane.showMessageDialog(this,"Wrong Credentials");
+    }
+    public void Confirmation () {
+        JOptionPane.showMessageDialog(this,"You have been Logged In");
+    }
+
+
+
+
+
 }

@@ -5,6 +5,7 @@
 package Controllers;
 
 import Models.EmployeeManager;
+import Views.EmployeeLoginScreen;
 
 /**
  *
@@ -13,16 +14,37 @@ import Models.EmployeeManager;
 public class EmployeeController {
     
     
-    EmployeeManager employeeManager = new EmployeeManager();
-    
-    public  boolean loginController(String userName,String Password){
-        
-        if (employeeManager.login(userName, Password)) {
-             
-         return true;
-        
+    EmployeeManager employeeManager;
+    EmployeeLoginScreen employeeLoginScreen;
+
+    public EmployeeController() {
+        employeeManager=new EmployeeManager();
+        employeeLoginScreen = new EmployeeLoginScreen();
+        employeeLoginScreen.addLoginButtonListener(e->{
+            login(employeeLoginScreen.getUserName(), employeeLoginScreen.getPassword());
+        });
+    }
+    public  boolean login(String userName,String Password){
+
+        if ((employeeLoginScreen.getUserName().isEmpty() || employeeLoginScreen.getPassword().isEmpty())) {
+            employeeLoginScreen.SayForCredentials();
+        }
+        else{
+            if (employeeManager.login(userName, Password)) {
+
+                employeeLoginScreen.Confirmation();
+                employeeLoginScreen.dispose();
+                //to-do:
+                //add the next Screen Controller
+                return true;
+            }
+            else{
+                employeeLoginScreen.WrongCredentials();
+            }
         }
         return false;
     
     }
+
+
 }
