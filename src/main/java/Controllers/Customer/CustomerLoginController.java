@@ -1,18 +1,18 @@
-package Controllers;
+package Controllers.Customer;
 
 import Models.CustomerManager;
-import Views.CustomerLoginScreen;
+import Views.Customer.CustomerLoginScreen;
 
-public class CustomerController {
+public class CustomerLoginController {
     CustomerManager customerManager ;
     CustomerLoginScreen customerLoginScreen;
 
-    public CustomerController() {
+    public CustomerLoginController() {
         customerManager = new CustomerManager();
         customerLoginScreen = new CustomerLoginScreen();
 
         customerLoginScreen.addLoginButtonListener(e->{
-            loginController(customerLoginScreen.getID(),customerLoginScreen.getCNIC());
+            login(customerLoginScreen.getID(),customerLoginScreen.getCNIC());
         });
 
 
@@ -20,9 +20,7 @@ public class CustomerController {
 
     }
 
-
-
-    public  boolean loginController(String Id,String CNIC){
+    public  boolean login(String Id, String CNIC){
 
 
         if (Id.isEmpty()||CNIC.isEmpty()){
@@ -34,8 +32,7 @@ public class CustomerController {
         if (customerManager.login(Id, CNIC)){
             customerLoginScreen.Confirmation();
             customerLoginScreen.dispose();
-            //to-do:
-            //prompt to other Screen
+            new CustomerSessionController(Id,CNIC);
             return true;
         }
         else{

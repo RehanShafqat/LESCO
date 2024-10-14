@@ -118,7 +118,7 @@ public class BillingManager {
 
         billings.add(newBill);
     }
-public void viewCurrentBill(String customerId) {
+public Billing viewCurrentBill(String customerId) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate latestDate = LocalDate.MIN;
         Billing latestBill = null;
@@ -136,12 +136,7 @@ public void viewCurrentBill(String customerId) {
                 }
             }
         }
-
-        if (latestBill == null) {
-            System.out.println("No bill found for this ID.");
-        } else {
-            latestBill.printSummary();
-        }
+        return latestBill;
     }
     public void viewBill(String customerId) {
         boolean billFound = false;

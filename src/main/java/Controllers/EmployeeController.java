@@ -5,7 +5,7 @@
 package Controllers;
 
 import Models.EmployeeManager;
-import Views.EmployeeLoginScreen;
+import Views.Employee.EmployeeLoginScreen;
 
 /**
  *

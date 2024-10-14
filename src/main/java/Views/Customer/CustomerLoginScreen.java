@@ -1,6 +1,5 @@
-package Views;
+package Views.Customer;
 
-import Controllers.CustomerController;
 import Structures.CustomFrame;
 import Structures.ImagePath;
 

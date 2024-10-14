@@ -1,4 +1,4 @@
-package Views;
+package Views.Employee;
 
 import Structures.CustomFrame;
 import Structures.ImagePath;

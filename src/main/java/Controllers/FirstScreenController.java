@@ -1,6 +1,6 @@
 package Controllers;
 
-import Views.CustomerLoginScreen;
+import Controllers.Customer.CustomerLoginController;
 import Views.FirstScreen;
 
 public class FirstScreenController {
@@ -17,7 +17,7 @@ public class FirstScreenController {
         MainScreen.addCustomerButtonListener(e->{
             MainScreen.dispose();
 
-            new CustomerController();
+            new CustomerLoginController();
         });
         MainScreen.addExitButtonListener(e->{
             MainScreen.dispose();

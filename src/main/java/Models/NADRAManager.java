@@ -92,7 +92,7 @@ public class NADRAManager {
         });
     }
 
-    public void updateCNICExpiry(String CNIC) {
+    public String updateCNICExpiry(String CNIC) {
         String today = Date.todaysDate();
         String expiryDate = Date.dateYearLater();
         boolean isUpdated = NADRAData.stream()
@@ -102,10 +102,13 @@ public class NADRAManager {
             .isPresent();
         
         if (isUpdated) {
+
             System.out.println("Expiry Date extended for 1 year");
             saveData();
+            return "Expiry Date extended for 1 year";
         } else {
             System.out.println("No CNIC Found");
+            return "No CNIC Found";
         }
     }
 }
