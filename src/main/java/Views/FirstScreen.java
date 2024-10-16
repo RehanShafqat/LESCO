@@ -1,29 +1,30 @@
 package Views;
 
-import Controllers.FirstScreenController;
 import Structures.CustomFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.EventListener;
-
 public class FirstScreen extends CustomFrame {
 
     GridBagConstraints gbc = new GridBagConstraints();
-    JButton Employeebutton;
-    JButton Customerbutton;
-    JButton ExitButton;
+    CustomButton Employeebutton;
+    CustomButton Customerbutton;
+    CustomButton ExitButton;
     public FirstScreen() {
+        super(true);
         setTitle("LESCO Billing System");
+        setBackground(Color.BLACK);
         setBackground(Color.darkGray);
         setLayout(new GridBagLayout());
         gbc.fill = GridBagConstraints.HORIZONTAL;
         JPanel HeadingPanel = new JPanel();
         HeadingPanel.setLayout(new GridBagLayout());
-
+        HeadingPanel.setOpaque(false);
         JLabel headingLabel = new JLabel("LESCO BILLING SYSTEM");
-        headingLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        headingLabel.setOpaque(false);
+        headingLabel.setForeground(Color.WHITE);
+        headingLabel.setFont(new Font("Georgia", Font.BOLD, 34));
         HeadingPanel.add(headingLabel);
 
 
@@ -39,6 +40,7 @@ public class FirstScreen extends CustomFrame {
     private void addButtons() {
 
         JPanel OptionPanel = new JPanel();
+        OptionPanel.setOpaque(false);
         OptionPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints optionGbc = new GridBagConstraints();
@@ -46,16 +48,16 @@ public class FirstScreen extends CustomFrame {
         optionGbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Employee Login
-        Employeebutton = new JButton("Employee Login");
+        Employeebutton = new CustomButton("Employee Login");
         Employeebutton.setFocusPainted(false);
 
 
         // Customer Login
-         Customerbutton = new JButton("Customer Login");
+         Customerbutton = new CustomButton("Customer Login");
         Customerbutton.setFocusPainted(false);
 
         // Exit
-        ExitButton = new JButton("Exit");
+        ExitButton = new CustomButton("Exit");
         ExitButton.setFocusPainted(false);
 
 

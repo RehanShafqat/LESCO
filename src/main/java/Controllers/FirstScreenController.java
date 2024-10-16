@@ -16,7 +16,6 @@ public class FirstScreenController {
         });
         MainScreen.addCustomerButtonListener(e->{
             MainScreen.dispose();
-
             new CustomerLoginController();
         });
         MainScreen.addExitButtonListener(e->{

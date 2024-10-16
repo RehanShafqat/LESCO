@@ -23,9 +23,14 @@ public class EmployeeController {
         employeeLoginScreen.addLoginButtonListener(e->{
             login(employeeLoginScreen.getUserName(), employeeLoginScreen.getPassword());
         });
+        employeeLoginScreen.addBackButtonListener(e->{
+            employeeLoginScreen.ExitScreen();
+            new FirstScreenController();
+        });
     }
     public  boolean login(String userName,String Password){
 
+        System.out.println("hello");
         if ((employeeLoginScreen.getUserName().isEmpty() || employeeLoginScreen.getPassword().isEmpty())) {
             employeeLoginScreen.SayForCredentials();
         }

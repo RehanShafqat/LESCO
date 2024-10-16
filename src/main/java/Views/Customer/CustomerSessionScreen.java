@@ -2,6 +2,7 @@ package Views.Customer;
 
 import Structures.Billing;
 import Structures.CustomFrame;
+import Views.CustomButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,20 +11,25 @@ import java.awt.event.ActionListener;
 public class CustomerSessionScreen extends CustomFrame {
 
     GridBagConstraints gbc = new GridBagConstraints();
-    JButton viewBillButton;
-    JButton updateCnicButton;
-    JButton exitButton;
+    CustomButton viewBillButton;
+    CustomButton updateCnicButton;
+    CustomButton logoutButton;
 
     public CustomerSessionScreen() {
+
+        super(true);
         setTitle("Customer Session");
         setBackground(Color.darkGray);
         setLayout(new GridBagLayout());
         gbc.fill = GridBagConstraints.HORIZONTAL;
         JPanel HeadingPanel = new JPanel();
         HeadingPanel.setLayout(new GridBagLayout());
+        HeadingPanel.setOpaque(false);
 
         JLabel headingLabel = new JLabel("Customer Session");
-        headingLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        headingLabel.setForeground(Color.WHITE);
+        headingLabel.setOpaque(false);
+        headingLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         HeadingPanel.add(headingLabel);
 
         addButtons();
@@ -36,6 +42,7 @@ public class CustomerSessionScreen extends CustomFrame {
     private void addButtons() {
 
         JPanel OptionPanel = new JPanel();
+        OptionPanel.setOpaque(false);
         OptionPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints optionGbc = new GridBagConstraints();
@@ -43,15 +50,15 @@ public class CustomerSessionScreen extends CustomFrame {
         optionGbc.fill = GridBagConstraints.HORIZONTAL;
 
 
-        viewBillButton = new JButton("View Current Bill");
+        viewBillButton = new CustomButton("View Current Bill");
         viewBillButton.setFocusPainted(false);
 
-        updateCnicButton = new JButton("Update CNIC Expiry");
+        updateCnicButton = new CustomButton("Update CNIC Expiry");
         updateCnicButton.setFocusPainted(false);
 
 
-        exitButton = new JButton("Exit");
-        exitButton.setFocusPainted(false);
+        logoutButton = new CustomButton("Logout");
+        logoutButton.setFocusPainted(false);
 
         optionGbc.gridy = 0; // Row 0
         viewBillButton.setMargin(new Insets(20, 20, 20, 20));
@@ -64,9 +71,9 @@ public class CustomerSessionScreen extends CustomFrame {
         OptionPanel.add(updateCnicButton, optionGbc);
 
         optionGbc.gridy = 2; // Row 2
-        exitButton.setMargin(new Insets(20, 20, 20, 20));
-        exitButton.setFont(new Font("Arial", Font.BOLD, 15));
-        OptionPanel.add(exitButton, optionGbc);
+        logoutButton.setMargin(new Insets(20, 20, 20, 20));
+        logoutButton.setFont(new Font("Arial", Font.BOLD, 15));
+        OptionPanel.add(logoutButton, optionGbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -79,8 +86,8 @@ public class CustomerSessionScreen extends CustomFrame {
     public void addUpdateCnicButtonListener(ActionListener e) {
         updateCnicButton.addActionListener(e);
     }
-    public void addExitButtonListener(ActionListener e) {
-        exitButton.addActionListener(e);
+    public void addlogoutButtonListener(ActionListener e) {
+        logoutButton.addActionListener(e);
     }
 
     public void BillNotFount() {
@@ -92,27 +99,6 @@ public class CustomerSessionScreen extends CustomFrame {
     public void displayMessageForExpiryUpdation(String message){
         JOptionPane.showMessageDialog(this,message);
     }
-    public void viewBill(Billing bill) {
-        StringBuilder billInfo = new StringBuilder();
-        billInfo.append("Customer ID: ").append(bill.getCustomerId()).append("\n")
-                .append("Billing Month: ").append(bill.getBillingMonth()).append("\n")
-                .append("Total Amount: ").append(String.format("%.2f", bill.getTotalBillingAmount())).append("\n")
-                .append("Status: ").append(bill.getBillStatus()).append("\n")
-                .append("Due Date: ").append(bill.getDueDate()).append("\n")
-                .append("Payment Date: ").append(bill.getBillPaymentDate() != null ? bill.getBillPaymentDate() : "Not Paid").append("\n");
-
-        JTextArea textArea = new JTextArea(billInfo.toString());
-        textArea.setFont(new Font("Arial", Font.PLAIN, 18)); // Set larger font size here
-        textArea.setEditable(false); // Make sure text is not editable
-        textArea.setLineWrap(true);  // Enable line wrapping
-        textArea.setWrapStyleWord(true);  // Wrap lines at word boundaries
-
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setPreferredSize(new Dimension(400, 300)); // Control dialog size
-
-        JOptionPane.showMessageDialog(null, scrollPane, "Billing Information", JOptionPane.INFORMATION_MESSAGE);
-    }
-
 
 
 
@@ -120,4 +106,5 @@ public class CustomerSessionScreen extends CustomFrame {
 
 
 }
+
 

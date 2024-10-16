@@ -1,5 +1,6 @@
 package Controllers.Customer;
 
+import Controllers.FirstScreenController;
 import Models.CustomerManager;
 import Views.Customer.CustomerLoginScreen;
 
@@ -13,6 +14,10 @@ public class CustomerLoginController {
 
         customerLoginScreen.addLoginButtonListener(e->{
             login(customerLoginScreen.getID(),customerLoginScreen.getCNIC());
+        });
+        customerLoginScreen.addBackButtonListener(e->{
+            customerLoginScreen.ExitScreen();
+            new FirstScreenController();
         });
 
 

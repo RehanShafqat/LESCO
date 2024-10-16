@@ -1,5 +1,6 @@
 package Controllers.Customer;
 
+import Controllers.FirstScreenController;
 import Models.BillingManager;
 import Models.NADRAManager;
 import Structures.Billing;
@@ -27,8 +28,9 @@ public class CustomerSessionController {
         customerSessionScreen.addUpdateCnicButtonListener(e->{
             updateCnic(CNIC);
         });
-        customerSessionScreen.addExitButtonListener(e->{
+        customerSessionScreen.addlogoutButtonListener(e->{
             ExitCustomerSessionScreen();
+            new FirstScreenController();
         });
 
 
