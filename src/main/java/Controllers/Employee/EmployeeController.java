@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Controllers;
+package Controllers.Employee;
 
+import Controllers.FirstScreenController;
 import Models.EmployeeManager;
 import Views.Employee.EmployeeLoginScreen;
 
@@ -39,8 +40,7 @@ public class EmployeeController {
 
                 employeeLoginScreen.Confirmation();
                 employeeLoginScreen.dispose();
-                //to-do:
-                //add the next Screen Controller
+                new EmployeeSessionController(userName);
                 return true;
             }
             else{

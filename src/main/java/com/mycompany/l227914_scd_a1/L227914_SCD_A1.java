@@ -16,5 +16,4 @@ public class L227914_SCD_A1 {
     public static void main(String[] args) {
         new FirstScreenController();
     }
-
 }

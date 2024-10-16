@@ -1,6 +1,7 @@
 package Controllers;
 
 import Controllers.Customer.CustomerLoginController;
+import Controllers.Employee.EmployeeController;
 import Views.FirstScreen;
 
 public class FirstScreenController {

@@ -39,13 +39,12 @@ public class CustomFrame extends JFrame {
             Graphics2D g2d = (Graphics2D) g;
             int width = getWidth();
             int height = getHeight();
-            Color color1 = new Color(0x005B5C);
-            Color color3 = new Color(0x1A737D);
-            GradientPaint gradient = new GradientPaint(0, 0,Colors.getBaseColor().brighter() , getWidth()*0.95f, getHeight(), Colors.getGoldenColor().darker(), false);
+            GradientPaint gradient = new GradientPaint(0, 0,Colors.getBaseColor().darker() , getWidth()*0.95f, getHeight(), Colors.getMatchColor().darker(), false);
             g2d.setPaint(gradient);
             g2d.fillRect(0, 0, width, height);
         }
     }
+
 }
 
 //0x1F3A3D
