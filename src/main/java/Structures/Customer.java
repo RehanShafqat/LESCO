@@ -146,4 +146,5 @@ public class Customer {
      public boolean authenticate(String uniqueId, String CNIC) {
          return this.uniqueId.equals(uniqueId) && this.CNIC.equals(CNIC);
      }
+
 }

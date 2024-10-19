@@ -10,17 +10,19 @@ package Models;
  */
 
 
-import Date.Util;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
+
 import Structures.Customer;
 import Enums.*;
-import java.util.Random;
+
+import javax.swing.text.html.Option;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CustomerManager {
 
@@ -96,123 +98,73 @@ public class CustomerManager {
         customerData.forEach(Customer::printSummary);
     }
 
-    public void registerCustomer(Scanner scanner) {
-        Random random = new Random();
-        String uniqueId = String.format("%04d", 1000 + random.nextInt(9000));
-        while (isUniqueIdExists(uniqueId)) {
-            uniqueId = String.format("%04d", 1000 + random.nextInt(9000));
-        }
-
-        System.out.println("Generated Unique ID: " + uniqueId);
-
-        System.out.println("Enter Customer CNIC:");
-        String CNIC = scanner.nextLine();
-
-        while (CNIC.length() != 13 || !Util.numsOnly(CNIC)) {
-            System.out.println("Error: CNIC must have 13 digits. Enter again: ");
-            CNIC = scanner.nextLine();
-        }
-
+    public String registerCustomer(Customer customer) {
         NADRAManager nadraDb = new NADRAManager();
-        while (!nadraDb.isCNICExists(CNIC)) {
-            System.out.println("CNIC not found in NADRA Record. Try Again");
-            CNIC = scanner.nextLine();
+        if (!nadraDb.isCNICExists(customer.getCNIC())) {
+            return "CNIC not found in NADRA DB";
         }
-
-        if (getCustomerCountByCNIC(CNIC) > 2) {
+        if (getCustomerCountByCNIC(customer.getCNIC()) > 2) {
             System.out.println("Error: Only 3 meters are allowed per CNIC");
-            return;
+            return "Error: Only 3 meters are allowed per CNIC";
         }
-
-        System.out.println("Enter Customer Name:");
-        String name = scanner.nextLine();
-
-        System.out.println("Enter  Address:");
-        String address = scanner.nextLine();
-
-        System.out.println("Enter Phone:");
-        String phone = scanner.nextLine();
-        while (phone.length() != 11) {
-            System.out.println("Error: phone-no must have 11 digits. Enter again: ");
-            phone = scanner.nextLine();
-        }
-
-        System.out.println("Enter Customer Type (1 for Commercial, 2 for Domestic):");
-        int typeOption = Integer.parseInt(scanner.nextLine());
-        CustomerType type = (typeOption == 1) ? CustomerType.COMMERCIAL : CustomerType.DOMESTIC;
-
-        System.out.println("Enter Meter Type (1 for Single Phase, 2 for Three Phase):");
-        int meterOption = Integer.parseInt(scanner.nextLine());
-        MeterType meterType = (meterOption == 1) ? MeterType.SINGLE_PHASE : MeterType.THREE_PHASE;
-
-        System.out.println("Enter Connection Date (DD/MM/YYYY):");
-        String connectionDate = scanner.nextLine();
-
-        int regUnitsConsumed = 0;
-        int peakUnitsConsumed = 0;
-
-        Customer newCustomer = new Customer(uniqueId, CNIC, name, address, phone,
-                type, meterType, connectionDate, regUnitsConsumed,
-                peakUnitsConsumed);
-
-        customerData.add(newCustomer);
-
+        customerData.add(customer);
         saveData();
         loadData();
-
         System.out.println("Meter added successfully!");
+        return "Meter added successfully!";
     }
 
-    public void updateCustomer(Scanner scanner) {
-        if (customerData.isEmpty()) {
-            System.out.println("No Customer Data found");
-            return;
+    public String updateCustomer(Customer updatedCustomer) {
+        if (updatedCustomer != null) {
+            Customer existingCustomer = getCustomerById(updatedCustomer.getUniqueId());
+            if (existingCustomer != null) {
+                existingCustomer.setUniqueId(updatedCustomer.getUniqueId());
+                existingCustomer.setName(updatedCustomer.getName());
+                existingCustomer.setAddress(updatedCustomer.getAddress());
+                existingCustomer.setPhone(updatedCustomer.getPhone());
+                existingCustomer.setType(updatedCustomer.getType());
+                existingCustomer.setMeterType(updatedCustomer.getMeterType());
+                existingCustomer.setConnectionDate(updatedCustomer.getConnectionDate());
+                existingCustomer.setRegUnitsConsumed(updatedCustomer.getRegUnitsConsumed());
+                existingCustomer.setPeakUnitsConsumed(updatedCustomer.getPeakUnitsConsumed());
+                existingCustomer.setConnectionDate(updatedCustomer.getConnectionDate());
+                // Save the updated customer data
+                this.saveData();
+                this.loadData();
+
+                System.out.println("Customer Updated Successfully");
+                return "Customer Updated Successfully";
+            } else {
+                System.out.println("Customer not found");
+                return "Customer Not Found";
+            }
+        } else {
+            System.out.println("Provided customer is null");
+            return "Customer not found";
         }
-
-        this.printCustomerSummary();
-        System.out.println("Enter Index of Customer to Update: ");
-        String index = scanner.nextLine();
-        while (Integer.parseInt(index) < 1 || Integer.parseInt(index) > customerData.size()
-                || !Util.numsOnly(index)) {
-            System.out.println("Error: Please enter valid index: ");
-            index = scanner.nextLine();
-        }
-
-        System.out.println("Enter Customer Name:");
-        String name = scanner.nextLine();
-
-        System.out.println("Enter Address:");
-        String address = scanner.nextLine();
-
-        System.out.println("Enter Phone:");
-        String phone = scanner.nextLine();
-        while (phone.length() != 11) {
-            System.out.println("Error: Phone number must have 11 digits. Enter again: ");
-            phone = scanner.nextLine();
-        }
-
-        System.out.println("Enter Customer Type (1 for commercial, 2 for domestic):");
-        int typeOption = Integer.parseInt(scanner.nextLine());
-        CustomerType type = (typeOption == 1) ? CustomerType.COMMERCIAL : CustomerType.DOMESTIC;
-
-        System.out.println("Enter Meter Type (1 for Single_Phase, 2 for Three_Phase):");
-        int meterOption = Integer.parseInt(scanner.nextLine());
-        MeterType meterType = (meterOption == 1) ? MeterType.SINGLE_PHASE : MeterType.THREE_PHASE;
-        Customer existingCustomer = customerData.get(Integer.parseInt(index) - 1);
-        Customer newCustomer = new Customer(existingCustomer.getUniqueId(),
-                existingCustomer.getCNIC(), name, address, phone,
-                type, meterType, existingCustomer.getConnectionDate(),
-                existingCustomer.getRegUnitsConsumed(), existingCustomer.getPeakUnitsConsumed());
-
-        customerData.set(Integer.parseInt(index) - 1, newCustomer);
-        this.saveData();
-        this.loadData();
-        System.out.println("Customer Updated Successfully");
     }
 
+
+    public ArrayList<Customer> getAllCustomer(){
+        return customerData;
+    }
 
     public boolean login(String customerId, String CNIC) {
         System.out.println("ID: " + customerId + "   CNIC" + CNIC);
         return customerData.stream().anyMatch(c -> c.authenticate(customerId, CNIC));
+    }
+    public void deleteCustomer(String customerId) {
+
+        customerData =  customerData.stream().filter(e->!e.getUniqueId().equals(customerId))
+                .collect(Collectors.toCollection(ArrayList::new));
+        saveData();
+        loadData();
+    }
+    public Customer getCustomerById(String customerId) {
+        return customerData
+                .stream()
+                .filter(e->e.getUniqueId()
+                        .equals(customerId))
+                .findFirst().orElse(null);
     }
 }
