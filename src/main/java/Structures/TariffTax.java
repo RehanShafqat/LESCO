@@ -1,5 +1,5 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt t change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Structures;
@@ -78,7 +78,17 @@ public class TariffTax {
     public void setFixedCharges(double fixedCharges) {
         this.fixedCharges = fixedCharges;
     }
-   
-    
+
+    @Override
+    public String toString() {
+        return "TariffTax{" +
+                "customerType=" + customerType +
+                ", meterType=" + meterType +
+                ", regUnitPrice=" + regUnitPrice +
+                ", peakUnitPrice=" + peakUnitPrice +
+                ", taxPercentage=" + taxPercentage +
+                ", fixedCharges=" + fixedCharges +
+                '}';
+    }
 }
 

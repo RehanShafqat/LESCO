@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -195,14 +196,14 @@ public Billing viewCurrentBill(String customerId) {
    
 
     
-     public void generateReport() {
+     public String generateReport() {
         if (billings.isEmpty()) {
             System.out.println("No Bills Found.");
-            return;
+            return "No Bills found";
         }
 
-        long paidCount = 0;
-        long unpaidCount = 0;
+        int paidCount = 0;
+        int unpaidCount = 0;
 
         for (Billing bill : billings) {
             if (bill.getBillStatus().equals("paid")) {
@@ -211,10 +212,12 @@ public Billing viewCurrentBill(String customerId) {
                 unpaidCount++;
             }
         }
+         System.out.println("Report Summary");
+         System.out.println("Paid bills: " + paidCount);
+         System.out.println("Unpaid bills: " + unpaidCount);
 
-        System.out.println("Report Summary");
-        System.out.println("Paid bills: " + paidCount);
-        System.out.println("Unpaid bills: " + unpaidCount);
+         return "Paid bills: " + paidCount+  "\n Unpaid Bills: " + unpaidCount;
+
     }
 
    

@@ -80,40 +80,29 @@ public class TariffTaxManager {
                 .orElse(null);
     }
 
-    
-    public void updateTariffTaxDetails(Scanner scanner) {
-        System.out.println("Update TariffTax Information:");
-        System.out.println("1. Domestic Single Phase");
-        System.out.println("2. Commercial Single Phase");
-        System.out.println("3. Domestic Three Phase");
-        System.out.println("4. Commercial Three Phase");
-        System.out.println("5. Go Back");
 
-        int choice = getValidChoice(scanner, 1, 5);
-        if (choice == 5) return;
+    public String updateTariffTaxDetails(TariffTax updatedTax) {
+        for (TariffTax tax : taxes) {
+            if (tax.getCustomerType() == updatedTax.getCustomerType() && tax.getMeterType() == updatedTax.getMeterType()) {
+                tax.setRegUnitPrice(updatedTax.getRegUnitPrice());
+                tax.setPeakUnitPrice(updatedTax.getPeakUnitPrice());
+                tax.setTaxPercentage(updatedTax.getTaxPercentage());
+                tax.setFixedCharges(updatedTax.getFixedCharges());
+                saveData();
+                loadData();
 
-        double regUnitPrice = getValidDouble(scanner, "Enter Regular Unit Price: ");
-        double peakUnitPrice = 0;
-        if (choice == 3 || choice == 4) {
-            peakUnitPrice = getValidDouble(scanner, "Enter Peak Unit Price: ");
+                System.out.println("Tax updated successfully.");
+                return "Tax upated Successfully";
+            }
         }
-        double taxPercentage = getValidDouble(scanner, "Enter Tax Percentage: ", 1, 100);
-        double fixedCharges = getValidDouble(scanner, "Enter Fixed Charges: ");
-
-        TariffTax tax = taxes.get(choice - 1);
-        tax.setRegUnitPrice(regUnitPrice);
-        tax.setPeakUnitPrice(peakUnitPrice);
-        tax.setTaxPercentage(taxPercentage);
-        tax.setFixedCharges(fixedCharges);
-
-        taxes.set(choice - 1, tax);
-        saveData();
-        System.out.println("Tax updated successfully.");
+        System.out.println("No matching tax found to update.");
+        return "No matching tax found to update";
     }
 
-    
-    
-    
+
+
+
+
     //Helper functions for ensuring right input
     
     private int getValidChoice(Scanner scanner, int min, int max) {

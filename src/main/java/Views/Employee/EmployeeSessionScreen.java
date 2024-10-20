@@ -1,6 +1,5 @@
 package Views.Employee;
 
-import Structures.Colors;
 import Structures.CustomFrame;
 import Structures.ImagePath;
 import Views.CustomButton;
@@ -30,8 +29,7 @@ public class EmployeeSessionScreen extends CustomFrame {
     //Design Related Functions
     public EmployeeSessionScreen(boolean gradient, String userName) {
         super(gradient);
-
-
+        this.setSize(1000,600);
 
         setTitle("Employee Session");
         this.employeeUserName = userName;
@@ -173,11 +171,16 @@ public class EmployeeSessionScreen extends CustomFrame {
 
 
 
+    public void showMessage (String message) {
+        JOptionPane.showMessageDialog(this,message);
+    }
+    public int Logout(){
+        int response = JOptionPane.showConfirmDialog(this,"Are you sure you want to logout?");
+        if (response == JOptionPane.YES_OPTION) {
+        this.dispose();
+        return 1;
+        }
+        return 0;
 
-
-
-//    public static void main(String[] args) {
-//        new EmployeeSessionScreen(true, "Rehan");
-//    }
-
+    }
 }

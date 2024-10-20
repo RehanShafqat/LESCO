@@ -2,7 +2,6 @@ package Views.Employee;
 
 import Enums.CustomerType;
 import Enums.MeterType;
-import Structures.ButtonEditor;
 import Structures.ButtonRenderer;
 import Structures.Colors;
 import Structures.Customer;
@@ -12,6 +11,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -43,8 +44,8 @@ public class ManageCustomersPanel extends JPanel {
     public JTextField connectionDateField;
     public JTextField regUnitsField;
     public JTextField peakUnitsField;
-    public JComboBox<CustomerType> customerTypeBox;
-    public JComboBox<MeterType>    meterTypeBox;
+    public JComboBox<CustomerType>customerTypeBox;
+    public JComboBox<MeterType>meterTypeBox;
 
     //UI Functions
     public ManageCustomersPanel() {
@@ -58,7 +59,7 @@ public class ManageCustomersPanel extends JPanel {
         cardPanel.add(CustomerForm(null), "AddCustomer");
         add(cardPanel, BorderLayout.CENTER);
         cardLayout.show(cardPanel, "CustomerManagement");
-
+        cardPanel.setOpaque(false);
 
     }
     private JPanel createCustomerManagementView() {
@@ -194,7 +195,13 @@ public class ManageCustomersPanel extends JPanel {
         return fieldPanel;
     }
     public void MakeTable() {
-        tModel = new DefaultTableModel();
+        tModel = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row,int column){
+                return column>=getColumnCount()-2 || column>=getColumnCount()-1 ;
+
+            }
+        };
         tModel.addColumn("Unique ID");
         tModel.addColumn("CNIC");
         tModel.addColumn("Name");
@@ -207,27 +214,27 @@ public class ManageCustomersPanel extends JPanel {
         tModel.addColumn("Peak Units");
         tModel.addColumn("Update");
         tModel.addColumn("Delete");
-        customerTable = new JTable(tModel);
+        customerTable = new JTable(tModel) ;
+        //Designing Table
+        customerTable.setBackground(Colors.getBaseColor());
+        customerTable.setForeground(Color.WHITE);
         JScrollPane scrollPane = new JScrollPane(customerTable);
+        scrollPane.setBackground(Colors.getBaseColor());
         this.add(scrollPane);
     }
     public void populateTable() {
-        tModel.setRowCount(0); // Clear the table
+        tModel.setRowCount(0);
         int columnCount = tModel.getColumnCount();
-
         if (columnCount > 3) {
             customerTable.getColumnModel().getColumn(columnCount - 2).setCellRenderer(new ButtonRenderer());
             customerTable.getColumnModel().getColumn(columnCount - 1).setCellRenderer(new ButtonRenderer());
         } else {
             System.err.println("Table model does not have enough columns to set the button renderers.");
         }
-
-        // Populate table rows
         for (Customer customer : customers) {
             JButton updateButton = new JButton("Update");
             JButton deleteButton = new JButton("Delete");
-
-            tModel.addRow(new Object[]{
+              tModel.addRow(new Object[]{
                     customer.getUniqueId(),
                     customer.getCNIC(),
                     customer.getName(),
@@ -238,9 +245,13 @@ public class ManageCustomersPanel extends JPanel {
                     customer.getConnectionDate(),
                     customer.getRegUnitsConsumed(),
                     customer.getPeakUnitsConsumed(),
-                    updateButton,  // New button instance
-                    deleteButton   // New button instance
+                    updateButton,
+                    deleteButton
             });
+
+        }
+        if (customerTable.isEditing()) {
+            System.out.println("EDITING");
         }
     }
 
@@ -296,8 +307,6 @@ public class ManageCustomersPanel extends JPanel {
         addButton.addActionListener(e);
 
     }
-
-
     public void showMessage(String Message) {
         JOptionPane.showMessageDialog(this,Message);
     }

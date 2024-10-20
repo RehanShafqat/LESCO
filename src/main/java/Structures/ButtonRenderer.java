@@ -10,17 +10,15 @@ public class ButtonRenderer extends JButton implements TableCellRenderer {
     }
 
     @Override
-    public Component getTableCellRendererComponent(JTable table, Object value,
-                                                   boolean isSelected, boolean hasFocus, int row, int column) {
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         if (value instanceof JButton) {
             JButton button = (JButton) value;
-//            button.setBackground(Color.red);
             setText(button.getText());
             setIcon(button.getIcon());
         } else {
             setText("");
-        }
 
+        }
         if (isSelected) {
             setBackground(table.getSelectionBackground());
             setForeground(table.getSelectionForeground());

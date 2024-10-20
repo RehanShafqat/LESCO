@@ -17,7 +17,7 @@ public class CustomFrame extends JFrame {
 
     public CustomFrame(Boolean isGradient) {
         setSize(900, 550);
-        setVisible(true);
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         ImageIcon icon = new ImageIcon(ImagePath.path + "icon.png");
@@ -29,7 +29,7 @@ public class CustomFrame extends JFrame {
         }else{
             setContentPane(new JPanel());
         }
-
+        setVisible(true);
     }
 
     private class GradientPanel extends JPanel {
